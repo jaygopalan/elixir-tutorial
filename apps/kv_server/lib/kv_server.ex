@@ -1,6 +1,10 @@
 defmodule KVServer do
   require Logger
 
+  def hello() do
+    :world
+  end
+
   def accept(port) do
     # The options below mean:
     #
