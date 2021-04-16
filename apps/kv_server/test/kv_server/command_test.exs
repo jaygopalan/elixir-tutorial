@@ -7,6 +7,7 @@ defmodule KVServer.CommandTest do
     %{pid: context.test}
   end
 
+  @tag :distributed
   test "spawns buckets", %{pid: pid} do
     # Create bucket
     assert KVServer.Command.run({:create, "shopping"}, pid) == {:ok, "OK\r\n"}
@@ -16,13 +17,5 @@ defmodule KVServer.CommandTest do
 
     # Get from bucket that exists
     assert KVServer.Command.run({:get, "shopping", "milk"}, pid) == {:ok, "1\r\nOK\r\n"}
-  end
-
-  test "query nonexistent bucket", %{pid: pid} do
-    # Get from bucket that doesn't exist
-    assert KVServer.Command.run({:get, "shopping", "milk"}, pid) == {:error, :not_found}
-
-    # Put in bucket that doesn't exist
-    assert KVServer.Command.run({:put, "shopping", "milk", 1}, pid) == {:error, :not_found}
   end
 end
